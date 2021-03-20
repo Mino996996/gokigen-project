@@ -12,9 +12,9 @@ describe('App', () => {
     expect(app.todaysMood()).toBe(3);
   });
 
-  it('is added other word or number', () =>{
+  it('alerts an error when added other words or number', () => {
     const app = new App();
-    expect(app.recordMood('happy!')).toBe('error!');
+    expect(app.recordMood('very happy!')).toBe('error!');
   });
 
   it('calculates average in a days ', () => {
