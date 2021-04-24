@@ -3,12 +3,13 @@ import logo from './logo.svg';
 import './App.css';
 import {ExternalTextLink} from "./coponents/atoms/externalTextLink/externalTextLink";
 import axios, {AxiosResponse} from "axios";
-import {useAsync} from "react-use";
+import {useAsync, useToggle} from "react-use";
 
 type User = { name: string; birth: string };
 
 function App() {
-  const [user, setUser]: [User | null, ((value: (((prevState: User | null) => User) | User)) => void)] = useState<User | null>(null);
+  const [user, setUser]: [User | null, ((value: (((prevState: User | null) => User) | User | null)) => void)] = useState<User | null>(null);
+  const [clicked, toggleClicked] = useToggle(false);
 
   const getNetworkUser = () => axios.get("http://localhost:3001/")
     .then((res: AxiosResponse<Array<User>>) => setUser(res.data[0]))
@@ -17,8 +18,14 @@ function App() {
     })
 
   useAsync(async () => {
+    if (clicked) {
+      window.alert('Clear user')
+      setUser(null)
+      return
+    }
+
     await getNetworkUser()
-  }, [])
+  }, [clicked])
 
   return (
     <div className="App">
@@ -34,7 +41,7 @@ function App() {
           </p>
         </>
         }
-        <button onClick={getNetworkUser}>Click to Update User</button>
+        <button onClick={toggleClicked}>Click to Update User</button>
         <ExternalTextLink text={"Learn React"} href={"https://reactjs.org"}/>
       </header>
     </div>
