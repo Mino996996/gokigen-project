@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import {ExternalTextLink} from "./coponents/atoms/externalTextLink/externalTextLink";
@@ -21,7 +21,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo"/>
+        <img src={logo} alt="logo" className="h-72 pointer-events-none"/>
         <p>
           {user.name}
         </p>
