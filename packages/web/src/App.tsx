@@ -4,17 +4,19 @@ import './App.css';
 import {ExternalTextLink} from "./coponents/atoms/externalTextLink/externalTextLink";
 import axios, {AxiosResponse} from "axios";
 
-function App() {
-  const [user, setUser] = useState<{ name: string; birth: string }>({name: 'Local', birth: '2021/04/10'});
+type User = { name: string; birth: string };
 
-  useEffect(() => {
-    setTimeout(() => {
-      axios.get("http://localhost:3001/")
-        .then((res: AxiosResponse<Array<{ name: string; birth: string }>>) => {
-          setUser(res.data[0])
-        })
-    }, 3000)
-  }, [])
+function App() {
+  const [user, setUser]: [User, ((value: (((prevState: User) => User) | User)) => void)] = useState<User>({
+    name: 'Initial',
+    birth: 'null'
+  });
+
+  const getNetworkUser = () => axios.get("http://localhost:3001/")
+    .then((res: AxiosResponse<Array<User>>) => setUser(res.data[0]))
+    .catch(() => {
+      setUser({name: 'Network Error', birth: 'error'})
+    })
 
   return (
     <div className="App">
@@ -26,7 +28,7 @@ function App() {
         <p>
           {user.birth}
         </p>
-        <button onClick={() => setUser({name: "Updated Man", birth: "2021/04/11"})}>Click to Update User</button>
+        <button onClick={getNetworkUser}>Click to Update User</button>
         <ExternalTextLink text={"Learn React"} href={"https://reactjs.org"}/>
       </header>
     </div>
