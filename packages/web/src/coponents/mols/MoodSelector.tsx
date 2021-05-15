@@ -1,6 +1,6 @@
 import {useState} from 'react'
 import {RadioGroup} from '@headlessui/react'
-import {sendMoodToServer} from "../../api/serviceApi";
+import {MoodSelectorSig} from "../../api/serviceApi";
 
 type Mood = { level: number; label: string };
 
@@ -31,11 +31,11 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-export function MoodSelector() {
+export function MoodSelector({api} : {api: MoodSelectorSig}) {
   const [selected, setSelected] = useState(moodIndex[0])
 
   const sendMood = async (mood: Mood) => {
-    await sendMoodToServer({level: mood.level})
+    await api({level: mood.level})
     window.alert("Sent Mood of " + mood.label)
   };
 
