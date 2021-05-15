@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {ExternalTextLink} from "./coponents/atoms/externalTextLink/externalTextLink";
 import axios, {AxiosResponse} from "axios";
 import {useAsync, useToggle} from "react-use";
+import {MoodSelector} from "./coponents/mols/MoodSelector";
 
 type User = { name: string; birth: string };
 
@@ -30,7 +30,6 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} alt="logo" className="h-72 pointer-events-none"/>
         {user &&
         <>
           <p>
@@ -43,6 +42,8 @@ function App() {
         }
         <button onClick={toggleClicked}>Click to Update User</button>
         <ExternalTextLink text={"Learn React"} href={"https://reactjs.org"}/>
+
+        <MoodSelector/>
       </header>
     </div>
   );
