@@ -1,7 +1,9 @@
 import {useState} from 'react'
 import {RadioGroup} from '@headlessui/react'
 
-const moodIndex = Array.from(Array(3)).map((_, idx): { level: number; label: string } => {
+type Mood = { level: number; label: string };
+
+const moodIndex = Array.from(Array(3)).map((_, idx): Mood => {
   let label: string
 
   switch (idx) {
@@ -31,17 +33,22 @@ function classNames(...classes: string[]) {
 export function MoodSelector() {
   const [selected, setSelected] = useState(moodIndex[0])
 
+  const sendMood = (mood: Mood) => {
+    window.alert("Sent Mood of " + mood.label)
+  };
+
   return (
-    <RadioGroup className={"flex"} value={selected} onChange={setSelected}>
-      {moodIndex.map((plan) => (
-        <div key={plan.level}>
-          <RadioGroup.Option
-            key={plan.label}
-            value={plan}
-            className={'relative p-4 flex flex-col cursor-pointer md:pl-4 md:pr-6 md:grid md:grid-cols-3 focus:outline-none'}
-          >
-            {({active, checked}) => (
-              <div className="flex flex-col">
+    <div>
+      <RadioGroup className={"flex"} value={selected} onChange={setSelected}>
+        {moodIndex.map((plan) => (
+          <div key={plan.level}>
+            <RadioGroup.Option
+              key={plan.label}
+              value={plan}
+              className={'relative p-4 flex flex-col cursor-pointer md:pl-4 md:pr-6 md:grid md:grid-cols-3 focus:outline-none'}
+            >
+              {({active, checked}) => (
+                <div className="flex flex-col">
                     <span
                       className={classNames(
                         ' mb-0.5',
@@ -53,14 +60,23 @@ export function MoodSelector() {
                     >
                       <span className="rounded-full bg-white w-1.5 h-1.5"/>
                     </span>
-                <RadioGroup.Label as="span" className="font-medium text-gray-900">
-                  {plan.label}
-                </RadioGroup.Label>
-              </div>
-            )}
-          </RadioGroup.Option>
-        </div>
-      ))}
-    </RadioGroup>
+                  <RadioGroup.Label as="span" className="font-medium text-gray-900">
+                    {plan.label}
+                  </RadioGroup.Label>
+                </div>
+              )}
+            </RadioGroup.Option>
+          </div>
+        ))}
+      </RadioGroup>
+
+      <button
+        type="button"
+        onClick={() => sendMood(selected)}
+        className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      >
+        Send
+      </button>
+    </div>
   )
 }
