@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import './App.css';
 import {ExternalTextLink} from "./coponents/atoms/externalTextLink/externalTextLink";
 import axios, {AxiosResponse} from "axios";
@@ -29,7 +29,7 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
+      <header>
         {user &&
         <>
           <p>
@@ -43,7 +43,9 @@ function App() {
         <button onClick={toggleClicked}>Click to Update User</button>
         <ExternalTextLink text={"Learn React"} href={"https://reactjs.org"}/>
 
-        <MoodSelector/>
+        <div className={"max-w-2xl mx-auto"}>
+          <MoodSelector/>
+        </div>
       </header>
     </div>
   );
