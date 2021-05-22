@@ -12,8 +12,10 @@ describe('RadioService', () => {
     service = module.get<RadioService>(RadioService);
   });
 
-  test('経過時間を計算する', () =>{
+  test('1時間のラジオをスタートしてから1秒後、残り時間が 60 x 60 - 1 になる', async () =>{
     service.startRadio()
-    expect(service.elapsedTimeInSec()).toEqual(expect.any(Number))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+
+    expect(service.elapsedTimeInSec()).toEqual(60*60-1)
   });
 });

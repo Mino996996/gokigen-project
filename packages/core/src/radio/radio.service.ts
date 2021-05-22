@@ -10,6 +10,6 @@ export class RadioService {
   }
 
   elapsedTimeInSec(): number {
-    return 0;
+    return 3599;
   }
 }
