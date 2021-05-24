@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class RadioService {
+export class RadioScriptService {
   constructor() {
   }
 
