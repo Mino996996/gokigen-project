@@ -1,6 +1,23 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { RadioService } from "./radio.service";
 
+type ScriptItems = {
+  contentType: ContentType;
+  corner:string;
+  talkOutline:string;
+  mainGive:string;
+  time:number;
+}
+
+enum ContentType {
+  'opening',
+  'freeTalk',
+  'jingle',
+  'miniCorner',
+  'corner',
+  'music',
+  'ending'
+}
 describe('RadioService', () => {
   let service: RadioService;
 
@@ -12,7 +29,11 @@ describe('RadioService', () => {
     service = module.get<RadioService>(RadioService);
   });
 
-  test('1時間のラジオをスタートしてから1秒後、残り時間が 60 x 60 - 1 になる', async () =>{
+  test('コンテンツリストで0を選択したらopeningを返す', ()=>{
+    expect(service.).toEqual('opening');
+  });
+
+  test('経過時間を計算する', () =>{
     service.startRadio()
     await new Promise((resolve) => setTimeout(resolve, 1000))
 
