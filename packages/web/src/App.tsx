@@ -4,12 +4,9 @@ import {ExternalTextLink} from "./coponents/atoms/externalTextLink/externalTextL
 import axios, {AxiosResponse} from "axios";
 import {useAsync, useToggle} from "react-use";
 import {MoodSelector} from "./coponents/mols/MoodSelector";
-import {mockSendToServer} from "./api/mock/sendToServer";
-import {sendMoodToServer} from "./api/http/sendToserver";
+import MoodSenderProvider from "./coponents/abstracts/moodSender/moodSenderProvider";
 
 type User = { name: string; birth: string };
-
-const moodSender = process.env.NODE_ENV !== "production" ? mockSendToServer : sendMoodToServer
 
 function App() {
   const [user, setUser]: [User | null, ((value: (((prevState: User | null) => User) | User | null)) => void)] = useState<User | null>(null);
@@ -32,26 +29,28 @@ function App() {
   }, [clicked])
 
   return (
-    <div className="App">
-      <header>
-        {user &&
-        <>
-          <p>
-            {user.name}
-          </p>
-          <p>
-            {user.birth}
-          </p>
-        </>
-        }
-        <button onClick={toggleClicked}>Click to Update User</button>
-        <ExternalTextLink text={"Learn React"} href={"https://reactjs.org"}/>
+    <MoodSenderProvider>
+      <div className="App">
+        <header>
+          {user &&
+          <>
+            <p>
+              {user.name}
+            </p>
+            <p>
+              {user.birth}
+            </p>
+          </>
+          }
+          <button onClick={toggleClicked}>Click to Update User</button>
+          <ExternalTextLink text={"Learn React"} href={"https://reactjs.org"}/>
 
-        <div className={"max-w-2xl mx-auto"}>
-          <MoodSelector api={moodSender}/>
-        </div>
-      </header>
-    </div>
+          <div className={"max-w-2xl mx-auto"}>
+            <MoodSelector />
+          </div>
+        </header>
+      </div>
+    </MoodSenderProvider>
   );
 }
 
