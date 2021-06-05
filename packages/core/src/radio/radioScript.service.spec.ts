@@ -19,7 +19,7 @@ describe('RadioService', () => {
   });
 
   it('コーナー名に"ふつおた"を記入したら、"ふつおた"を返す', () =>{
-    expect(service.editCornerName('ふつおた').toEqual('ふつおた'));
+    expect(service.editCornerName('ふつおた')).toEqual('ふつおた');
   });
 
   test('経過時間を計算する', () =>{
