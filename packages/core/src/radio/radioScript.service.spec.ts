@@ -1,23 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { RadioScriptService } from "./radioScript.service";
+import { RadioScriptService, ContentType, Outlines } from "./radioScript.service";
 
-type ScriptItems = {
-  contentType: ContentType;
-  corner:string;
-  talkOutline:string;
-  mainGive:string;
-  time:number;
-}
 
-enum ContentType {
-  'opening',
-  'freeTalk',
-  'jingle',
-  'miniCorner',
-  'corner',
-  'music',
-  'ending'
-}
 describe('RadioService', () => {
   let service: RadioScriptService;
 
@@ -29,8 +13,13 @@ describe('RadioService', () => {
     service = module.get<RadioScriptService>(RadioScriptService);
   });
 
-  test('コンテンツリストで0を選択したらopeningを返す', ()=>{
-    expect(service).toEqual('opening');
+  it('コンテンツリストで0を選択したら"オープニング"を返す', ()=>{
+    expect(service.selectContent(0)).toEqual("オープニング");
+    // expect(service.selectContent(8)).toBeTruthy();
+  });
+
+  it('コーナー名に"ふつおた"を記入したら、"ふつおた"を返す', () =>{
+    expect(service.editCornerName('ふつおた').toEqual('ふつおた'));
   });
 
   test('経過時間を計算する', () =>{
