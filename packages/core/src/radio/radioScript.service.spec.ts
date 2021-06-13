@@ -24,8 +24,6 @@ describe('RadioService', () => {
 
   test('経過時間を計算する', () =>{
     service.startRadio()
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-
-    expect(service.elapsedTimeInSec()).toEqual(60*60-1)
+    expect(service.elapsedTimeInSec()).toEqual(expect.any(Number))
   });
 });
