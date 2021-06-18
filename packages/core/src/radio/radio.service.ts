@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-
+import { Content } from "./content";
 
 // このサービスは台本データのGET/POSTリクエストを受けて
 // 画面側にいい感じに整える処理を担う
@@ -7,9 +7,10 @@ import { Injectable } from "@nestjs/common";
 export type RadioContent = {
   contentType: ContentType;
   storyTitle:string;
-  talkPoint:string;
+  mainPersonality:string;
   goal:string;
   time:number;
+  memo?:string;
 }
 
 export enum ContentType {
@@ -22,26 +23,6 @@ export enum ContentType {
   ending
 }
 
-class Content {
-  constructor(
-    private readonly contentType: ContentType,
-    private readonly storyTitle: string,
-    private readonly talkPoint: string,
-    private readonly goal: string,
-    private readonly time:number
-    ) {}
-
-
-  getContentScript():RadioContent {
-    return {
-      contentType: this.contentType,
-      storyTitle: this.storyTitle,
-      talkPoint: this.talkPoint,
-      goal: this.goal,
-      time: this.time
-    };
-  }
-}
 
 @Injectable()
 export class RadioService {
@@ -91,8 +72,8 @@ export class RadioService {
     return "under construction";
   }
 
-  createContentScript() {
-    const content = new Content(1, '餃子の話', '皮が薄い', '美味しい焼き方おしえて',5);
+  createContentScript(contentType:ContentType, storyTitle:string, mainPersonality:string, goal:string, minute:number, memo:string) {
+    const content = new Content(contentType, storyTitle, mainPersonality, goal, minute, memo);
     return content.getContentScript();
   }
 }

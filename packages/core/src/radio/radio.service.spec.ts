@@ -35,11 +35,13 @@ describe('RadioService', () => {
 
   it("なんかいい感じにコーナーの中身をまとめる", () => {
     const okContentData: RadioContent = {
-      contentType:1, storyTitle:'餃子の話', talkPoint:'皮が薄い', goal:'美味しい焼き方おしえて', time:5
+      contentType:1, storyTitle:'餃子の話', mainPersonality:'aka', goal:'美味しい焼き方おしえて', time:5, memo:'テンション高めに'
     };
     const ngContentData: RadioContent = {
-      contentType:2, storyTitle:'みかんの話', talkPoint:'皮が厚い', goal:'いよかんだった', time:50
+      contentType:2, storyTitle:'みかんの話', mainPersonality:'mino', goal:'いよかんだった', time:50
     };
-    expect(service.createContentScript()).toEqual(okContentData);
+    expect(service.createContentScript(1, '餃子の話',
+      'aka', '美味しい焼き方おしえて',5,
+      'テンション高めに')).toEqual(okContentData);
   });
 });
