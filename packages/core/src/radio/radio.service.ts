@@ -66,4 +66,7 @@ export class RadioService {
   }
 
 
+  fetchScriptList() {
+    return "under construction";
+  }
 }
