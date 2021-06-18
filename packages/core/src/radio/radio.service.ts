@@ -15,8 +15,8 @@ export type RadioContent = {
 export enum ContentType {
   opening =1,
   freeTalk,
-  jingle ,
-  miniCorner ,
+  jingle,
+  miniCorner,
   corner,
   music,
   ending
