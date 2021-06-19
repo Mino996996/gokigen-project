@@ -11,7 +11,7 @@ export class RadioController {
 
   @Get("script")
   script(){
-    return this.radioService.fetchScriptList();
+    return this.radioService.scriptList();
     // todo: 台本リストを返すサービスを書く
   }
 }

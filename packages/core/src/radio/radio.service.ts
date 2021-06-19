@@ -1,4 +1,6 @@
 import { Injectable } from "@nestjs/common";
+import { CreateContentListDto } from "./createContentListDto";
+import { ScriptRepository } from "./script/scriptRepository";
 
 // このサービスは台本データのGET/POSTリクエストを受けて
 // 画面側にいい感じに整える処理を担う
@@ -11,6 +13,7 @@ export type RadioScript = {
 }
 
 export type RadioContent = {
+  id: number;
   contentType: ContentType;
   time?:number;
   order?:number;
@@ -33,22 +36,20 @@ export enum ContentType {
   ending
 }
 
-
 @Injectable()
 export class RadioService {
-  constructor() {
-  }
-
+  constructor(private readonly scriptRepository: ScriptRepository) {}
   // コントローラーの動作確認用とアーキテクチャー理解のために作成
-  fetchDemo():{message: string}[] {
+  fetchDemo(): { message: string }[] {
     return [
-      {message: 'this is demo'},
-      {message: 'radioController is done. GJ!'}
+      { message: 'this is demo' },
+      { message: 'radioController is done. GJ!' },
     ];
   }
 
-  fetchScriptList() {
-    return "under construction";
+  scriptList() {
+    const scripts = this.scriptRepository.scripts();
+    return 'under construction';
   }
 
   // createContentScript(contentType:ContentType, storyTitle:string, mainPersonality:string, goal:string, minute:number, memo:string) {
@@ -56,15 +57,8 @@ export class RadioService {
   //   return content.getContentScript();
   // }
 
-  // 【データ洗浄用】必須項目がないオブジェクトを除外する
-  cleaningContentList(sampleData: any[]):RadioContent[] {
-    return sampleData.filter((value) => {
-      return (value.contentType && value.date && value.groupId);
-    });
-  }
-
   // 【データ抽出用】日付とグループに該当するデータの抽出
-  createContentList(sample:RadioContent[], date: string, groupId: number) {
-    return "nodata";
+  createContentList(dto: CreateContentListDto) {
+    return 'nodata';
   }
 }

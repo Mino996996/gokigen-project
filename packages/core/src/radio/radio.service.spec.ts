@@ -1,8 +1,7 @@
-import { Test, TestingModule } from "@nestjs/testing";
-import { RadioService, RadioContent, ContentType } from "./radio.service";
-import { sampleContent, sampleNoErrorContent } from '../samples/sample-content-data';
-import { sampleUser} from "../samples/sample-user-data";
-import { sampleGroup} from "../samples/sample-group-data";
+import { Test, TestingModule } from '@nestjs/testing';
+import { RadioContent, RadioService } from './radio.service';
+import { sampleContent } from '../fixtures/sample-content-data';
+import { CreateContentListDto } from "./createContentListDto";
 
 describe('RadioService', () => {
   let service: RadioService;
@@ -15,66 +14,20 @@ describe('RadioService', () => {
     service = module.get<RadioService>(RadioService);
   });
 
-  // 型定義でいい感じにできないか？
-  it("データにある必要項目を含まないコンテンツリストは除外する", () => {
-    const sampleData: any[] = sampleContent;
-    const okData = sampleNoErrorContent;
-    expect(service.cleaningContentList(sampleData)).toEqual(okData);
+  it('xxxしているとき、グループと収録日に該当するコンテンツをデータリストから拾い出す', () => {
+    expect(
+      service.createContentList(
+        new CreateContentListDto(
+          (sampleContent as any) as RadioContent[],
+          '2021/6/1 13:00',
+          1,
+        ),
+      ),
+    ).toEqual('nodata');
   });
 
-  it("グループと収録日に該当するコンテンツをデータリストから拾い出す", () => {
-    const okData = [
-      {
-        id:2, date:'2021/6/1 13:00', contentType:1, order:1, time:5, bgm:'エーデルワイス',
-        talkTheme:'みかんの話', talkScript:'皮が厚いとおもったら伊予柑だった', mainSpeaker:[],
-        memo:'テンション高めに', groupId:1
-      },
-      {
-        id:4, date:'2021/6/1 13:00', contentType:4, order:3, groupId:1
-      },
-      { //エラー用:contentTypeなし
-        id:5, date:'2021/6/1 13:00', order:4, groupId:1
-      },
-      {
-        id:6, date:'2021/6/1 13:00', contentType:6, order:0, groupId:1
-      },
-      { //エラー用:dateなし
-        id:8, contentType:6, order:0, groupId:1
-      },
-    ];
-    const ngData = [
-      {
-      id:2, date:'2021/6/1 13:00', contentType:1, order:1, time:5, bgm:'エーデルワイス',
-      talkTheme:'みかんの話', talkScript:'皮が厚いとおもったら伊予柑だった', mainSpeaker:[],
-      memo:'テンション高めに', groupId:1
-    },
-      {
-        id:3, date:'2021/7/1 13:00', contentType:3, order:4, time:40,
-        talkTheme:'ふつおた', mainSpeaker:[3,4], groupId:2
-      },
-      {
-        id:4, date:'2021/6/1 13:00', contentType:4, order:3, groupId:1
-      },
-      { //エラー用:contentTypeなし
-        id:5, date:'2021/6/1 13:00', order:4, groupId:1
-      },
-      {
-        id:6, date:'2021/6/1 13:00', contentType:6, order:0, groupId:1
-      },
-      { //エラー用:groupIdなし
-        id:7, date:'2021/6/1 13:00', contentType:6, order:0
-      },
-      { //エラー用:dateなし
-        id:8, contentType:6, order:0, groupId:1
-      },
-      {
-        id:9, date:'2021/6/1 13:00', contentType:6, order:0, groupId:2
-      },];
-    const date = '2021/6/1 13:00';
-    const groupId = 1;
-    const sample = service.cleaningContentList(sampleContent);
-    expect(service.createContentList(sample, date, groupId)).toEqual("nodata");
-
+  xit('xxxしているとき、グループと収録日に該当するコンテンツをデータリストから拾い出さない', () => {
+    // todo: テスト書く
   });
 
   // it("コンテンツの収録時間を算出する", () => {
