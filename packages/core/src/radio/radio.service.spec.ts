@@ -1,5 +1,8 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { RadioService, RadioContent, ContentType } from "./radio.service";
+import { sampleContent, sampleNoErrorContent } from '../samples/sample-content-data';
+import { sampleUser} from "../samples/sample-user-data";
+import { sampleGroup} from "../samples/sample-group-data";
 
 describe('RadioService', () => {
   let service: RadioService;
@@ -12,36 +15,92 @@ describe('RadioService', () => {
     service = module.get<RadioService>(RadioService);
   });
 
-  // test('1時間のラジオをスタートしてから1秒後、残り時間が 60 x 60 - 1 になる', async () =>{
-  //   service.startRadio()
-  //   await new Promise((resolve) => setTimeout(resolve, 1000))
+  // 型定義でいい感じにできないか？
+  it("データにある必要項目を含まないコンテンツリストは除外する", () => {
+    const sampleData: any[] = sampleContent;
+    const okData = sampleNoErrorContent;
+    expect(service.cleaningContentList(sampleData)).toEqual(okData);
+  });
+
+  it("グループと収録日に該当するコンテンツをデータリストから拾い出す", () => {
+    const okData = [
+      {
+        id:2, date:'2021/6/1 13:00', contentType:1, order:1, time:5, bgm:'エーデルワイス',
+        talkTheme:'みかんの話', talkScript:'皮が厚いとおもったら伊予柑だった', mainSpeaker:[],
+        memo:'テンション高めに', groupId:1
+      },
+      {
+        id:4, date:'2021/6/1 13:00', contentType:4, order:3, groupId:1
+      },
+      { //エラー用:contentTypeなし
+        id:5, date:'2021/6/1 13:00', order:4, groupId:1
+      },
+      {
+        id:6, date:'2021/6/1 13:00', contentType:6, order:0, groupId:1
+      },
+      { //エラー用:dateなし
+        id:8, contentType:6, order:0, groupId:1
+      },
+    ];
+    const ngData = [
+      {
+      id:2, date:'2021/6/1 13:00', contentType:1, order:1, time:5, bgm:'エーデルワイス',
+      talkTheme:'みかんの話', talkScript:'皮が厚いとおもったら伊予柑だった', mainSpeaker:[],
+      memo:'テンション高めに', groupId:1
+    },
+      {
+        id:3, date:'2021/7/1 13:00', contentType:3, order:4, time:40,
+        talkTheme:'ふつおた', mainSpeaker:[3,4], groupId:2
+      },
+      {
+        id:4, date:'2021/6/1 13:00', contentType:4, order:3, groupId:1
+      },
+      { //エラー用:contentTypeなし
+        id:5, date:'2021/6/1 13:00', order:4, groupId:1
+      },
+      {
+        id:6, date:'2021/6/1 13:00', contentType:6, order:0, groupId:1
+      },
+      { //エラー用:groupIdなし
+        id:7, date:'2021/6/1 13:00', contentType:6, order:0
+      },
+      { //エラー用:dateなし
+        id:8, contentType:6, order:0, groupId:1
+      },
+      {
+        id:9, date:'2021/6/1 13:00', contentType:6, order:0, groupId:2
+      },];
+    const date = '2021/6/1 13:00';
+    const groupId = 1;
+    const sample = service.cleaningContentList(sampleContent);
+    expect(service.createContentList(sample, date, groupId)).toEqual("nodata");
+
+  });
+
+  // it("コンテンツの収録時間を算出する", () => {
   //
-  //   expect(service.elapsedTimeInSec()).toEqual(60*60-1)
-  // });
-  //
-  // it('コンテンツリストで0を選択したら"オープニング"を返す', ()=>{
-  //   expect(service.selectContent(0)).toEqual("オープニング");
-  //   // expect(service.selectContent(8)).toBeTruthy();
-  // });
-  //
-  // it('コーナー名に"ふつおた"を記入したら、"ふつおた"を返す', () =>{
-  //   expect(service.editCornerName('ふつおた')).toEqual('ふつおた');
-  // });
-  //
-  // test('経過時間を計算する', () =>{
-  //   service.startRadio()
-  //   expect(service.elapsedTimeInSec()).toEqual(expect.any(Number))
+  //   expect().toBe();
   // });
 
-  it("なんかいい感じにコーナーの中身をまとめる", () => {
-    const okContentData: RadioContent = {
-      contentType:1, storyTitle:'餃子の話', mainPersonality:'aka', goal:'美味しい焼き方おしえて', time:5, memo:'テンション高めに'
-    };
-    const ngContentData: RadioContent = {
-      contentType:2, storyTitle:'みかんの話', mainPersonality:'mino', goal:'いよかんだった', time:50
-    };
-    expect(service.createContentScript(1, '餃子の話',
-      'aka', '美味しい焼き方おしえて',5,
-      'テンション高めに')).toEqual(okContentData);
-  });
+  // it("表示用に各コンテンツデータをいい感じ整える", () => {
+  //   const okContentData: RadioContent = {
+  //
+  //   };
+  //   const ngContentData: RadioContent = {
+  //
+  //   };
+  //   expect().toBe();
+  // });
+
+  // it("なんかいい感じに指定グループの台本を作成して返す", () => {
+  //   const okData: RadioContent = {
+  //
+  //   };
+  //   const ngData: RadioContent = {
+  //
+  //   };
+  //   expect(service.createContentScript(1, '餃子の話',
+  //     'aka', '美味しい焼き方おしえて',5,
+  //     'テンション高めに')).toEqual(okData);
+  // });
 });

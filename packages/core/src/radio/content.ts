@@ -11,14 +11,14 @@ export class Content {
 ) {}
 
 
-  getContentScript():RadioContent {
-    return {
-      contentType: this.contentType,
-      storyTitle: this.storyTitle,
-      mainPersonality: this.mainPersonality,
-      goal: this.goal,
-      time: this.time,
-      memo: this.memo
-    };
-  }
+  // getContentScript():RadioContent {
+  //   return {
+  //     contentType: this.contentType,
+  //     talkTheme: this.storyTitle,
+  //     mainSpeaker: this.mainPersonality,
+  //     goal: this.goal,
+  //     time: this.time,
+  //     memo: this.memo
+  //   };
+  // }
 }
