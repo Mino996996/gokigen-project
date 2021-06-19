@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { RadioService } from './radio.service';
-import { RadioController } from './radio.controller';
+import { RadioService } from './radio/radio.service';
+import { RadioController } from './radio/radio.controller';
 
 @Module({
   providers: [RadioService],
