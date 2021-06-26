@@ -1,8 +1,8 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { RadioService, RadioContent, ContentType } from "./radio.service";
-import { sampleContent, sampleNoErrorContent } from '../samples/sample-content-data';
-import { sampleUser} from "../samples/sample-user-data";
-import { sampleGroup} from "../samples/sample-group-data";
+import { sampleContent, sampleNoErrorContent } from './fixtures/sample-content-data';
+import { sampleUser} from "./fixtures/sample-user-data";
+import { sampleGroup} from "./fixtures/sample-group-data";
 
 describe('RadioService', () => {
   let service: RadioService;
