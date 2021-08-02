@@ -75,7 +75,12 @@ export class RadioService {
   /* 【データ抽出用】日付とグループに該当するデータの抽出 */
   getContentList(sample: RadioContent[], date: string | null, groupId: number | null): RadioContent[] | string {
     if (date && groupId) {
-      return sample.filter(value => value.groupId === groupId).filter(value => value.date === date);
+      const resultList = sample.filter(value => value.groupId === groupId).filter(value => value.date === date);
+      if (resultList.length) {
+        return resultList;
+      } else {
+        return "nodata";
+      }
     } else if (date && !groupId) {
       return sample.filter(value => value.date === date);
     } else if (!date && groupId) {
