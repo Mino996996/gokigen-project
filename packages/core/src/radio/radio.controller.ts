@@ -1,26 +1,29 @@
-import { Controller, Get, Param} from "@nestjs/common";
-import { RadioService } from "./radio.service";
-import { sampleContent, sampleNoErrorData } from "./fixtures/sample-content-data";
+import { Body, Controller, Get, HttpCode, Post } from "@nestjs/common";
+import { RadioContent, RadioService } from './radio.service';
+import { sampleNoErrorData } from './fixtures/sample-content-data';
+import { UserContentsDto } from './dto/userContentsDto';
+import { UserContentsCommand } from "./userContentsCommand";
 
-@Controller("radio")
+@Controller('radio')
 export class RadioController {
-  constructor(private readonly _RS: RadioService ) {}
-  @Get("demo")
-  demo(){
-    return this._RS.fetchDemo();
-  }
+  constructor(private readonly radioService: RadioService) {}
 
-  @Get("script")
-  getAllScript(): string {
-    return this._RS.fetchScriptList();
+  @Get('scripts')
+  async allScripts(): Promise<string[]> {
+    return this.radioService.scripts();
     // todo: 台本リストを返すサービスを書く
   }
 
   /* ユーザーIDとgroupID別で台本リストを取得する */
-  @Get(":id/:group")
-  // todo: 現在は動作テストのためこれで済ませるが、DB連携時に合わせて非同期処理に変えること
-  getUserScript(@Param('id') userId:string, @Param('group') groupId:string){
-    return this._RS.getContentList(sampleNoErrorData , null, Number(userId));
-    // return `get userID:${Number(userId)}, groupID:${Number(groupId)}`
+  @Post('user_contents')
+  @HttpCode(200)
+  async userContents(
+    @Body() dto: UserContentsDto,
+  ): Promise<RadioContent[] | string> {
+    const cmd = new UserContentsCommand()
+    cmd.groupId = dto.groupId
+    cmd.userId = dto.userId
+
+    return this.radioService.userContents(sampleNoErrorData, cmd);
   }
 }

@@ -25,25 +25,25 @@ describe('RadioService', () => {
   it("グループと収録日に該当するコンテンツをデータリストから拾い出す", () => {
     const date = '2021/6/1 13:00';
     const groupId = 1;
-    expect(service.getContentList(sampleNoErrorData, date, groupId)).toEqual(okData1);
+    expect(service.userContents(sampleNoErrorData, date, groupId)).toEqual(okData1);
   });
 
   it("グループと収録日に該当するコンテンツをデータリストから拾い出す.このとき該当しない条件なら,nodataを返す", () => {
     const date = '2021/6/2 13:00';
     const groupId = 1;
-    expect(service.getContentList(sampleNoErrorData, date, groupId)).toEqual("nodata");
+    expect(service.userContents(sampleNoErrorData, date, groupId)).toEqual("nodata");
   });
 
   it("グループと収録日に該当するコンテンツをデータリストから拾い出す.このとき日付がnullなら,グループIDのみの該当結果を返す", () => {
     const date = null;
     const groupId = 1;
-    expect(service.getContentList(sampleNoErrorData, date, groupId)).toEqual(okData2);
+    expect(service.userContents(sampleNoErrorData, date, groupId)).toEqual(okData2);
   });
 
   it("グループと収録日に該当するコンテンツをデータリストから拾い出す.このときグループIDがnullなら,日付のみの該当結果を返す", () => {
     const date = '2021/6/1 13:00';
     const groupId = null;
-    expect(service.getContentList(sampleNoErrorData, date, groupId)).toEqual(okData3);
+    expect(service.userContents(sampleNoErrorData, date, groupId)).toEqual(okData3);
   });
 
   it("ログイン状態の確認@ログイン状態時はtrueを返す", () => {

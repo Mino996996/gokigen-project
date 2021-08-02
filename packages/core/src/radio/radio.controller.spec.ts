@@ -15,23 +15,8 @@ describe('RadioController', () => {
     radioController = module.get<RadioController>(RadioController);
   });
 
-  it('should be defined', () => {
-    expect(radioController).toBeDefined();
-  });
-
-  // live templateは itest
-
-  // demo
-  it("リスト形式でデモデータを返す", () => {
-    const demoOKData=[{message: 'this is demo'},
-      {message: 'radioController is done. GJ!'}];
-    const demoNGData=[{message: 'this is NGdemo'},
-      {message: 'but this test is done. GJ!'}];
-    expect(radioController.demo()).toEqual(demoOKData);
-  });
-
   // 本番用
   it("いい感じにラジオ台本のリストを返す", () => {
-    expect(radioController.script()).toEqual('under construction');
+    expect(radioController.allScripts()).toEqual(['under construction']);
   });
 });
