@@ -59,12 +59,11 @@ describe('RadioService', () => {
 
   it("所属するグループIDをリストアップする", () => {
     const userData = { id: 1, name: "aka", pass: "akaaka", status: 'login' }
-    expect(service.getGroupList(userData, sampleGroup)).toEqual(okGroup);
+    expect(service.getGroupList(userData.id, sampleGroup)).toEqual(okGroup);
   });
 
-  it("ログインしていないとき、please login を返す", () => {
-    const userData = { id: 1, name: "aka", pass: "akaaka", status: 'logout' }
-    expect(service.getGroupList(userData, sampleGroup)).toEqual('please login');
+  it("所属するグループIDをリストアップする IDが存在しないときは空配列を返す", () => {
+    expect(service.getGroupList(1000, sampleGroup)).toEqual([]);
   });
 
 });

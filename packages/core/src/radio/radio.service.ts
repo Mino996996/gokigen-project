@@ -91,12 +91,8 @@ export class RadioService {
   }
 
   /* 所属グループのリストを返す */
-  getGroupList(userData: UserData, sampleGroup:Group[]): Group[] | string{
-    if (userData.status === 'login'){
-      return sampleGroup.filter(value => value.member.includes(userData.id))
-    } else {
-      return 'please login'
-    }
+  getGroupList(userId: number, sampleGroup:Group[]): Group[] | string{
+    return sampleGroup.filter(value => value.member.includes(userId))
   }
 
   /* ログイン状態を確認する */
