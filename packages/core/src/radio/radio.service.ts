@@ -72,6 +72,7 @@ export class RadioService {
     });
   }
 
+  // todo: 【変更予定】日付は削除して画面側でフィルターをかけるようにする
   /* 【データ抽出用】日付とグループに該当するデータの抽出 */
   getContentList(sample: RadioContent[], date: string | null, groupId: number | null): RadioContent[] | string {
     if (date && groupId) {
