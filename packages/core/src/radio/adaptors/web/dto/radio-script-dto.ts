@@ -1,4 +1,4 @@
-import { RadioContent } from '../radio.service';
+import { RadioContent } from '../../../applications/radio.service';
 
 export class RadioScriptDto {
   readonly date: Date;

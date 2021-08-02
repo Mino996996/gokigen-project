@@ -1,8 +1,8 @@
 import { Body, Controller, Get, HttpCode, Post } from "@nestjs/common";
-import { RadioContent, RadioService } from './radio.service';
-import { sampleNoErrorData } from './fixtures/sample-content-data';
+import { RadioContent, RadioService } from '../../applications/radio.service';
+import { sampleNoErrorData } from '../../fixtures/sample-content-data';
 import { UserContentsDto } from './dto/userContentsDto';
-import { UserContentsCommand } from "./userContentsCommand";
+import { UserContentsCommand } from "../../applications/userContentsCommand";
 
 @Controller('radio')
 export class RadioController {

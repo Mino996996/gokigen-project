@@ -1,4 +1,4 @@
-import { ContentType, RadioContent } from "./radio.service";
+import { ContentType, RadioContent } from "./applications/radio.service";
 
 export class Content {
   constructor(

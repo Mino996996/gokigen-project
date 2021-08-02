@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RadioController } from './radio.controller';
-import { RadioService } from './radio.service';
+import { RadioService } from '../../applications/radio.service';
 
 describe('RadioController', () => {
   let radioController: RadioController;
