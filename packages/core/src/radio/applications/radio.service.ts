@@ -76,15 +76,13 @@ export class RadioService {
     sample: RadioContent[],
     cmd: UserContentsCommand,
     date?: string,
-  ): RadioContent[] | string {
+  ): RadioContent[] {
     if (date && cmd.groupId) {
       const resultList = sample
         .filter((value) => value.groupId === cmd.groupId)
         .filter((value) => value.date === date);
       if (resultList.length) {
         return resultList;
-      } else {
-        return 'nodata';
       }
     } else if (date && !cmd.groupId) {
       return sample.filter((value) => value.date === date);

@@ -19,7 +19,7 @@ export class RadioController {
   @HttpCode(200)
   async userContents(
     @Body() dto: UserContentsDto,
-  ): Promise<RadioContent[] | string> {
+  ): Promise<RadioContent[]> {
     const cmd = new UserContentsCommand()
     cmd.groupId = dto.groupId
     cmd.userId = dto.userId
