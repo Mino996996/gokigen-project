@@ -34,14 +34,14 @@ export enum ContentType {
   ending
 }
 
-export type userData = {
+export type UserData = {
   id: number,
   name: string,
   pass: string,
   status: string
 }
 
-export type group = {
+export type Group = {
   id: number,
   name: string,
   member: number[]
@@ -53,7 +53,7 @@ export class RadioService {
   constructor() {
   }
 
-  // コントローラーの動作確認用とアーキテクチャー理解のために作成
+  /* コントローラーの動作確認用とアーキテクチャー理解のために作成 */
   fetchDemo(): { message: string }[] {
     return [
       { message: "this is demo" },
@@ -65,20 +65,15 @@ export class RadioService {
     return "under construction";
   }
 
-  // createContentScript(contentType:ContentType, storyTitle:string, mainPersonality:string, goal:string, minute:number, memo:string) {
-  //   const content = new Content(contentType, storyTitle, mainPersonality, goal, minute, memo);
-  //   return content.getContentScript();
-  // }
-
-  // 【データ洗浄用】必須項目がないオブジェクトを除外する
+  /* 【データ洗浄用】必須項目がないオブジェクトを除外する */
   cleaningContentList(sampleData: any[]): RadioContent[] {
     return sampleData.filter((value) => {
       return (value.contentType && value.date && value.groupId);
     });
   }
 
-  // 【データ抽出用】日付とグループに該当するデータの抽出
-  createContentList(sample: RadioContent[], date: string | null, groupId: number | null): RadioContent[] | string {
+  /* 【データ抽出用】日付とグループに該当するデータの抽出 */
+  getContentList(sample: RadioContent[], date: string | null, groupId: number | null): RadioContent[] | string {
     if (date && groupId) {
       return sample.filter(value => value.groupId === groupId).filter(value => value.date === date);
     } else if (date && !groupId) {
@@ -90,12 +85,18 @@ export class RadioService {
     }
   }
 
-  /* ログイン状態を確認して、ログインしていたら所属グループのリストを返す */
-  checkBelong(userData: userData, sampleGroup:group[]): group[] | string{
+  /* 所属グループのリストを返す */
+  getGroupList(userData: UserData, sampleGroup:Group[]): Group[] | string{
     if (userData.status === 'login'){
       return sampleGroup.filter(value => value.member.includes(userData.id))
     } else {
       return 'please login'
     }
+  }
+
+  /* ログイン状態を確認する */
+  loginCheck(userDataList: UserData[], userId: number): boolean {
+    const user = userDataList.find(value => value.id === userId);
+    return !!(user && user.status === 'login');
   }
 }

@@ -25,36 +25,46 @@ describe('RadioService', () => {
   it("グループと収録日に該当するコンテンツをデータリストから拾い出す", () => {
     const date = '2021/6/1 13:00';
     const groupId = 1;
-    expect(service.createContentList(sampleNoErrorData, date, groupId)).toEqual(okData1);
+    expect(service.getContentList(sampleNoErrorData, date, groupId)).toEqual(okData1);
   });
 
   it("グループと収録日に該当するコンテンツをデータリストから拾い出す.このとき該当しない条件なら,nodataを返す", () => {
     const date = '2021/6/2 13:00';
     const groupId = 1;
-    expect(service.createContentList(sampleNoErrorData, date, groupId)).toEqual("nodata");
+    expect(service.getContentList(sampleNoErrorData, date, groupId)).toEqual("nodata");
   });
 
   it("グループと収録日に該当するコンテンツをデータリストから拾い出す.このとき日付がnullなら,グループIDのみの該当結果を返す", () => {
     const date = null;
     const groupId = 1;
-    expect(service.createContentList(sampleNoErrorData, date, groupId)).toEqual(okData2);
+    expect(service.getContentList(sampleNoErrorData, date, groupId)).toEqual(okData2);
   });
 
   it("グループと収録日に該当するコンテンツをデータリストから拾い出す.このときグループIDがnullなら,日付のみの該当結果を返す", () => {
     const date = '2021/6/1 13:00';
     const groupId = null;
-    expect(service.createContentList(sampleNoErrorData, date, groupId)).toEqual(okData3);
+    expect(service.getContentList(sampleNoErrorData, date, groupId)).toEqual(okData3);
   });
 
-  it("ログインしているとき、所属するグループIDをリストアップする", () => {
-    const userData = sampleUser[0];
-    expect(service.checkBelong(userData, sampleGroup)).toEqual(okGroup);
+  it("ログイン状態の確認@ログイン状態時はtrueを返す", () => {
+    // userData = { id: 1, name: "aka", pass: "akaaka", status: 'login' }
+    expect(service.loginCheck(sampleUser, 1)).toBeTruthy();
+  });
+
+  it("ログイン状態の確認@ログアウト状態でfalse,またはIDがない場合もfalseを返す", () => {
+    // userData = { id: 5, name: "jake", pass: "jacky", status: 'logout'}
+    expect(service.loginCheck(sampleUser, 5)).toBeFalsy();
+    expect(service.loginCheck(sampleUser, 1000)).toBeFalsy();
+  });
+
+  it("所属するグループIDをリストアップする", () => {
+    const userData = { id: 1, name: "aka", pass: "akaaka", status: 'login' }
+    expect(service.getGroupList(userData, sampleGroup)).toEqual(okGroup);
   });
 
   it("ログインしていないとき、please login を返す", () => {
-    const userData = sampleUser[0];
-    userData.status = 'logout'
-    expect(service.checkBelong(userData, sampleGroup)).toEqual('please login');
+    const userData = { id: 1, name: "aka", pass: "akaaka", status: 'logout' }
+    expect(service.getGroupList(userData, sampleGroup)).toEqual('please login');
   });
 
 });
